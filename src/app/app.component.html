@@ -489,15 +489,41 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="footer" role="contentinfo">
-    <div class="footer__left">
-      <span class="footer__name">{{ t('footer.author') }}</span>
-      <span class="footer__role">{{ t('footer.role') }}</span>
+<footer class="footer" role="contentinfo">
+  <div class="footer__inner">
+
+    <!-- Nombre y rol -->
+    <div class="footer__author">
+      <span class="footer__name">Elizabeth Díaz Familia</span>
+      <span class="footer__role">Sustainable AI Scientist · AI Data Scientist · Sustainable Intelligence & BI</span>
     </div>
-    <div class="footer__right">
+
+    <!-- Redes sociales -->
+    <div class="footer__links">
+      <a href="https://lizzy0981.github.io" target="_blank" rel="noopener" class="footer__link" title="Portfolio">
+        🌐 <span>Portfolio</span>
+      </a>
+      <a href="https://linkedin.com/in/eli-familia/" target="_blank" rel="noopener" class="footer__link" title="LinkedIn">
+        💼 <span>LinkedIn</span>
+      </a>
+      <a href="https://github.com/Lizzy0981" target="_blank" rel="noopener" class="footer__link" title="GitHub">
+        🐱 <span>GitHub</span>
+      </a>
+      <a href="https://twitter.com/Lizzyfamilia" target="_blank" rel="noopener" class="footer__link" title="Twitter">
+        🐦 <span>Twitter</span>
+      </a>
+      <a href="mailto:lizzyfamilia@gmail.com" class="footer__link" title="Email">
+        📧 <span>Email</span>
+      </a>
+    </div>
+
+    <!-- Sostenibilidad y licencia -->
+    <div class="footer__bottom">
       <span class="badge badge--green">🌱 {{ t('sustainability.carbon') }}</span>
-      <span class="footer__license">{{ t('footer.license') }} © 2026</span>
+      <span class="footer__license">MIT License © 2026</span>
     </div>
-  </footer>
+
+  </div>
+</footer>
 
 </div>
