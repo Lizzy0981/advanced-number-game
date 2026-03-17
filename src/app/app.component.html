@@ -1,19 +1,26 @@
-<!-- Advanced Number Game v3 — App Shell -->
+<!-- Advanced Number Game v3 — Obsidian Gold Design -->
 <!-- Elizabeth Díaz Familia — Sustainable AI Scientist -->
 
+<!-- Ambient glows -->
+<div class="ambient ambient--1" aria-hidden="true"></div>
+<div class="ambient ambient--2" aria-hidden="true"></div>
+
+<!-- Grain overlay -->
 <div class="app-bg" aria-hidden="true"></div>
 
 <div class="app-shell" [attr.data-dir]="i18n.dir()" [attr.data-lang]="i18n.lang()">
 
-  <!-- HEADER -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <header class="header" role="banner">
     <div class="header__inner">
 
+      <!-- Brand -->
       <div class="header__brand">
-        <span class="header__logo-icon" aria-hidden="true">🎯</span>
-        <span class="header__logo-text">{{ t('app.title') }}</span>
+        <div class="header__logo-icon" aria-hidden="true">🎯</div>
+        <span class="header__logo-text">NÚMERO SECRETO</span>
       </div>
 
+      <!-- Nav -->
       <nav class="header__nav" role="navigation">
         @for (tab of TABS; track tab) {
           <button
@@ -21,43 +28,38 @@
             [class.active]="currentTab() === tab"
             [attr.aria-current]="currentTab() === tab ? 'page' : null"
             (click)="setTab(tab)">
-            <span class="nav-tab__icon" aria-hidden="true">
-              {{ TAB_ICONS[tab] }}
-            </span>
+            <span class="nav-tab__icon" aria-hidden="true">{{ TAB_ICONS[tab] }}</span>
             <span class="nav-tab__label">{{ t('nav.' + tab) }}</span>
           </button>
         }
       </nav>
 
+      <!-- Controls -->
       <div class="header__controls">
 
-        <span
-          class="status-dot"
+        <span class="status-dot"
           [class.status-dot--online]="isOnline()"
           [class.status-dot--offline]="!isOnline()"
           role="status">
         </span>
 
+        <!-- Language selector -->
         <div class="lang-selector">
-          <button
-            class="lang-selector__trigger"
+          <button class="lang-selector__trigger"
             (click)="toggleLangDrop()"
             [attr.aria-expanded]="showLangDrop()">
-            <span aria-hidden="true">{{ LANG_META[i18n.lang()].flag }}</span>
-            <span>{{ LANG_META[i18n.lang()].nativeName }}</span>
-            <span class="lang-selector__arrow" aria-hidden="true">{{ showLangDrop() ? '▲' : '▼' }}</span>
+            🌐 {{ LANG_META[i18n.lang()].nativeName }}
+            <span class="lang-selector__arrow">{{ showLangDrop() ? '▲' : '▾' }}</span>
           </button>
 
           @if (showLangDrop()) {
             <div #langDropRef class="lang-selector__dropdown" role="listbox">
               @for (lang of ALL_LANGS; track lang) {
-                <button
-                  class="lang-option"
-                  role="option"
+                <button class="lang-option" role="option"
                   [class.active]="i18n.lang() === lang"
                   [attr.aria-selected]="i18n.lang() === lang"
                   (click)="setLang(lang)">
-                  <span class="lang-option__flag" aria-hidden="true">{{ LANG_META[lang].flag }}</span>
+                  <span class="lang-option__flag">{{ LANG_META[lang].flag }}</span>
                   <span class="lang-option__name">{{ LANG_META[lang].nativeName }}</span>
                   @if (LANG_META[lang].dir === 'rtl') {
                     <span class="lang-option__rtl-badge">RTL</span>
@@ -78,90 +80,96 @@
     </div>
   </header>
 
-  <!-- Sustainability strip -->
+  <!-- ── Hero band / Sustainability strip ─────────────────────────────────── -->
   <div class="sustainability-strip" role="complementary">
     <span class="sustainability-badge">
-      <span aria-hidden="true">🌱</span>
-      <span>{{ t('sustainability.badge') }}</span>
+      <span class="hero-dot" aria-hidden="true"></span>
+      IA Sostenible &nbsp;·&nbsp; Green Computing
+      <span class="hero-dot" aria-hidden="true"></span>
     </span>
   </div>
 
-  <!-- MAIN -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MAIN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <main class="main" id="main-content" role="main">
 
-    <!-- GAME TAB -->
+    <!-- ══════════════════ GAME TAB ══════════════════ -->
     @if (currentTab() === 'game') {
-      <div class="tab-content" role="region">
+      <div class="tab-content">
         <div class="game-grid">
 
-          <!-- Config Panel -->
+          <!-- ── Config Panel ── -->
           <aside class="config-panel">
             <div class="card">
-              <h2 class="card-title">⚙️ {{ t('config.title') }}</h2>
+              <h2 class="card-title">
+                <span class="config-icon" aria-hidden="true">⚙️</span>
+                Configuración
+              </h2>
 
               <form [formGroup]="form" novalidate>
 
-                <!-- Difficulty -->
+                <!-- Dificultad -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.difficulty') }}</legend>
                   <div class="difficulty-list">
                     @for (id of difficultyIds; track id) {
-                      <button
-                        type="button"
-                        class="diff-btn"
+                      <button type="button" class="diff-btn"
                         [class.selected]="form.get('difficulty')?.value === id"
                         [disabled]="isPlaying()"
                         (click)="form.patchValue({ difficulty: id })">
-                        <span class="diff-btn__name">{{ t('difficulty.' + id) }}</span>
-                        <span class="diff-btn__range">
-                          1–{{ DIFFICULTIES[id].range.max }}
+                        <div class="diff-btn__label">
+                          <div class="diff-indicator"></div>
+                          <span class="diff-btn__name">{{ t('difficulty.' + id) }}</span>
+                        </div>
+                        <div class="diff-btn__meta">
+                          <span class="diff-btn__range">1 – {{ DIFFICULTIES[id].range.max }}</span>
                           @if (DIFFICULTIES[id].timeLimit) {
-                            <span class="diff-btn__time">· ⏱ {{ DIFFICULTIES[id].timeLimit }}s</span>
+                            <div class="diff-btn__time">
+                              <span>⏱</span>{{ DIFFICULTIES[id].timeLimit }}s
+                            </div>
                           }
-                        </span>
+                        </div>
                       </button>
                     }
                   </div>
                 </fieldset>
 
-                <!-- Algorithm -->
+                <!-- Algoritmo -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.algorithm') }}</legend>
                   <div class="algo-grid">
                     @for (alg of ALGORITHMS; track alg) {
-                      <button
-                        type="button"
-                        class="algo-btn"
+                      <button type="button" class="algo-btn"
                         [class.selected]="form.get('algorithm')?.value === alg"
                         [disabled]="isPlaying()"
                         (click)="form.patchValue({ algorithm: alg })">
-                        <span class="algo-btn__icon" aria-hidden="true">{{ getAlgoIcon(alg) }}</span>
+                        <div class="algo-btn__icon" aria-hidden="true">{{ getAlgoIcon(alg) }}</div>
                         <span class="algo-btn__name">{{ t('algorithm.' + algoKey(alg)) }}</span>
                       </button>
                     }
                   </div>
                 </fieldset>
 
-                <!-- Advanced options -->
+                <!-- Opciones avanzadas -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.advanced') }}</legend>
                   <div class="options-list">
                     @for (opt of CONFIG_OPTIONS; track opt.key) {
                       <label class="option-toggle">
-                        <input type="checkbox" [formControlName]="opt.key" class="option-toggle__input">
                         <span class="option-toggle__label">
                           <span aria-hidden="true">{{ opt.icon }}</span>
                           {{ t('config.' + opt.key) }}
                         </span>
+                        <input type="checkbox" class="option-toggle__input"
+                          [formControlName]="opt.key">
+                        <div class="option-toggle__track"></div>
                       </label>
                     }
                   </div>
                 </fieldset>
 
-                <!-- Start button -->
-                <button
-                  type="button"
-                  class="btn btn--primary btn--lg btn--full"
+                <!-- CTA -->
+                <button type="button"
+                  class="btn btn--primary btn--full"
                   [disabled]="isPlaying()"
                   (click)="startGame()">
                   @if (gameState() === 'loading') {
@@ -170,7 +178,7 @@
                   } @else if (isPlaying()) {
                     🎮 {{ t('game.playing') }}
                   } @else {
-                    🚀 {{ t('game.start') }}
+                    <span>🚀</span> {{ t('game.start') }}
                   }
                 </button>
 
@@ -178,19 +186,47 @@
             </div>
           </aside>
 
-          <!-- Game Area -->
+          <!-- ── Game Area ── -->
           <section class="game-area" aria-live="polite">
 
             <!-- IDLE -->
             @if (gameState() === 'idle') {
               <div class="card card--hero">
-                <div class="hero-icon" aria-hidden="true">🎯</div>
-                <h1 class="hero-title">{{ t('app.title') }}</h1>
+                <div class="hero-icon" aria-hidden="true">
+                  <span>🎯</span>
+                </div>
+                <h1 class="hero-title">{{ t('game.title') }}</h1>
                 <p class="hero-sub">{{ t('app.description') }}</p>
+
                 <div class="hero-badges">
-                  <span class="badge badge--cyan">🔬 5 {{ t('algorithm.title') }}</span>
-                  <span class="badge badge--violet">🌍 11 {{ t('settings.language') }}</span>
-                  <span class="badge badge--green">♻️ Green Computing</span>
+                  <div class="badge badge--gold">
+                    <div class="badge-dot"></div>
+                    5 {{ t('algorithm.title') }}
+                  </div>
+                  <div class="badge badge--ghost">
+                    <div class="badge-dot" style="background:var(--text-muted)"></div>
+                    11 {{ t('settings.language') }}
+                  </div>
+                  <div class="badge badge--teal">
+                    <div class="badge-dot"></div>
+                    Green Computing
+                  </div>
+                </div>
+
+                <!-- Stats dinámicas -->
+                <div class="stats-row">
+                  <div class="stat-card">
+                    <div class="stat-value gold">{{ gameHistory().length }}</div>
+                    <div class="stat-label">{{ t('stats.totalGames') }}</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-value">{{ winRate() }}%</div>
+                    <div class="stat-label">{{ t('stats.winRate') }}</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-value">{{ currentStreak() }}</div>
+                    <div class="stat-label">{{ t('stats.streak') }}</div>
+                  </div>
                 </div>
               </div>
             }
@@ -199,19 +235,18 @@
             @if (isPlaying()) {
               <div class="playing-area">
 
-                <!-- Status bar -->
+                <!-- Status -->
                 <div class="card status-card">
                   <div class="status-row">
                     <div class="status-badges">
-                      <span class="badge badge--cyan">{{ t('difficulty.' + form.get('difficulty')?.value) }}</span>
-                      <span class="badge badge--violet">
-                        <span aria-hidden="true">{{ getAlgoIcon(form.get('algorithm')?.value) }}</span>
+                      <span class="badge badge--gold">{{ t('difficulty.' + form.get('difficulty')?.value) }}</span>
+                      <span class="badge badge--ghost">
+                        {{ getAlgoIcon(form.get('algorithm')?.value) }}
                         {{ t('algorithm.' + algoKey(form.get('algorithm')?.value)) }}
                       </span>
                     </div>
                     @if (timeRemaining() !== null) {
-                      <div
-                        class="timer"
+                      <div class="timer"
                         [class.timer--warning]="timeRemaining()! <= 15"
                         [class.timer--danger]="timeRemaining()! <= 5"
                         role="timer">
@@ -219,13 +254,11 @@
                       </div>
                     }
                   </div>
-
                   <div class="attempts-row">
                     <span class="attempts-label">{{ t('game.attempts') }}</span>
                     <span class="attempts-value">{{ attempts() }} / {{ maxAttempts() }}</span>
                   </div>
-                  <div
-                    class="progress-bar"
+                  <div class="progress-bar"
                     [class.progress-bar--warning]="gameProgress() > 60"
                     [class.progress-bar--danger]="gameProgress() > 85"
                     role="progressbar"
@@ -236,34 +269,25 @@
                   </div>
                 </div>
 
-                <!-- Guess input -->
+                <!-- Guess -->
                 <div class="card guess-card">
                   <p class="guess-prompt">
                     {{ t('game.guessPrompt') }}
                     <span class="range-hint">({{ diffConfig().range.min }}–{{ diffConfig().range.max }})</span>
                   </p>
-
                   <form [formGroup]="guessForm" (ngSubmit)="submitGuess()" class="guess-form" novalidate>
                     <div class="guess-row">
-                      <input
-                        #numberInputRef
-                        type="number"
-                        formControlName="number"
+                      <input #numberInputRef type="number" formControlName="number"
                         class="number-input"
                         [attr.placeholder]="t('game.placeholder')"
                         [attr.min]="diffConfig().range.min"
                         [attr.max]="diffConfig().range.max"
-                        autocomplete="off"
-                        inputmode="numeric">
-
+                        autocomplete="off" inputmode="numeric">
                       <button type="submit" class="btn btn--primary btn--lg" [disabled]="!canGuess()">
                         {{ t('game.guess') }}
                       </button>
-
                       @if (voiceSupported && form.get('voice')?.value) {
-                        <button
-                          type="button"
-                          class="btn"
+                        <button type="button" class="btn"
                           [class.btn--violet]="isListening()"
                           [class.btn--ghost]="!isListening()"
                           [attr.aria-pressed]="isListening()"
@@ -272,13 +296,9 @@
                         </button>
                       }
                     </div>
-
                     @if (isListening() && lastHeard()) {
-                      <p class="voice-feedback" role="status">
-                        {{ t('voice.heard', { value: lastHeard() }) }}
-                      </p>
+                      <p class="voice-feedback" role="status">{{ t('voice.heard', { value: lastHeard() }) }}</p>
                     }
-
                     @if (guessForm.get('number')?.invalid && guessForm.get('number')?.touched) {
                       <p class="input-error" role="alert">
                         {{ t('errors.outOfRange', { min: diffConfig().range.min, max: diffConfig().range.max }) }}
@@ -289,8 +309,7 @@
 
                 <!-- Hint -->
                 @if (lastHint()) {
-                  <div
-                    class="hint-box"
+                  <div class="hint-box"
                     [class.hint-box--higher]="lastHint() === 'higher'"
                     [class.hint-box--lower]="lastHint() === 'lower'"
                     [class.hint-box--correct]="lastHint() === 'correct'"
@@ -298,7 +317,7 @@
                     <span class="hint-box__icon" aria-hidden="true">
                       {{ lastHint() === 'higher' ? '⬆️' : lastHint() === 'lower' ? '⬇️' : '✅' }}
                     </span>
-                    <span class="hint-box__text">
+                    <span>
                       @if (lastHint() === 'higher') { {{ t('hint.higher', { guess: lastGuessValue() }) }} }
                       @if (lastHint() === 'lower')  { {{ t('hint.lower',  { guess: lastGuessValue() }) }} }
                       @if (lastHint() === 'correct'){ {{ t('hint.correct') }} }
@@ -321,9 +340,7 @@
                 <div class="result-icon" aria-hidden="true">
                   {{ gameState() === 'won' ? '🏆' : gameState() === 'timeout' ? '⏰' : '💔' }}
                 </div>
-
-                <h2
-                  class="result-title"
+                <h2 class="result-title"
                   [class.result-title--won]="gameState() === 'won'"
                   [class.result-title--lost]="gameState() === 'lost'"
                   [class.result-title--timeout]="gameState() === 'timeout'">
@@ -331,16 +348,11 @@
                   @if (gameState() === 'lost')    { {{ t('result.lost.title') }} }
                   @if (gameState() === 'timeout') { {{ t('result.timeout.title') }} }
                 </h2>
-
                 <p class="result-message">
-                  @if (gameState() === 'won')
-                    { {{ t('result.won.message', { attempts: attempts(), time: '—' }) }} }
-                  @if (gameState() === 'lost')
-                    { {{ t('result.lost.message', { number: secretNumber() }) }} }
-                  @if (gameState() === 'timeout')
-                    { {{ t('result.timeout.message', { number: secretNumber() }) }} }
+                  @if (gameState() === 'won')     { {{ t('result.won.message',     { attempts: attempts(), time: '—' }) }} }
+                  @if (gameState() === 'lost')    { {{ t('result.lost.message',    { number: secretNumber() }) }} }
+                  @if (gameState() === 'timeout') { {{ t('result.timeout.message', { number: secretNumber() }) }} }
                 </p>
-
                 <div class="result-stats">
                   <div class="result-stat">
                     <span class="result-stat__val">{{ winRate() }}%</span>
@@ -355,16 +367,10 @@
                     <span class="result-stat__lbl">{{ t('stats.wins') }}</span>
                   </div>
                 </div>
-
                 <div class="result-actions">
-                  <button class="btn btn--primary" (click)="startGame()">
-                    🔄 {{ t('game.playAgain') }}
-                  </button>
-                  <button class="btn btn--ghost" (click)="setTab('analytics')">
-                    📊 {{ t('game.viewStats') }}
-                  </button>
+                  <button class="btn btn--primary btn--lg" (click)="startGame()">🔄 {{ t('game.playAgain') }}</button>
+                  <button class="btn btn--ghost" (click)="setTab('analytics')">📊 {{ t('game.viewStats') }}</button>
                 </div>
-
               </div>
             }
 
@@ -373,11 +379,10 @@
       </div>
     }
 
-    <!-- ANALYTICS TAB -->
+    <!-- ══════════════════ ANALYTICS ══════════════════ -->
     @if (currentTab() === 'analytics') {
-      <div class="tab-content" role="region">
+      <div class="tab-content">
         <h1 class="page-title">📊 {{ t('analytics.title') }}</h1>
-
         <div class="metrics-grid">
           @for (m of getMetrics(); track m.label) {
             <div class="metric-card" [attr.data-color]="m.color">
@@ -389,25 +394,21 @@
             </div>
           }
         </div>
-
         @if (gameHistory().length === 0) {
           <div class="card empty-state">
             <span aria-hidden="true">📈</span>
             <p>{{ t('analytics.noData') }}</p>
           </div>
         } @else {
-          <div class="card" style="margin-top: 1.5rem">
+          <div class="card">
             <h2 class="card-title">{{ t('analytics.history') }}</h2>
             <div class="history-list" role="list">
               @for (record of gameHistory().slice(0, 20); track record.ts; let i = $index) {
                 <div class="history-item" role="listitem">
-                  <span class="history-item__num" aria-hidden="true">{{ i + 1 }}</span>
+                  <span class="history-item__num">{{ i + 1 }}</span>
                   <span class="history-item__result">
-                    @if (record.won) {
-                      <span class="badge badge--green">✅ {{ t('result.won.title') }}</span>
-                    } @else {
-                      <span class="badge badge--ghost">❌ {{ t('result.lost.title') }}</span>
-                    }
+                    @if (record.won) { <span class="badge badge--teal">✅ {{ t('result.won.title') }}</span> }
+                    @else            { <span class="badge badge--ghost">❌ {{ t('result.lost.title') }}</span> }
                   </span>
                   <span class="badge badge--ghost">{{ t('difficulty.' + record.difficulty) }}</span>
                   <span class="history-item__attempts">{{ record.attempts }} {{ t('difficulty.attempts') }}</span>
@@ -419,9 +420,9 @@
       </div>
     }
 
-    <!-- ACHIEVEMENTS TAB -->
+    <!-- ══════════════════ ACHIEVEMENTS ══════════════════ -->
     @if (currentTab() === 'achievements') {
-      <div class="tab-content" role="region">
+      <div class="tab-content">
         <h1 class="page-title">🏆 {{ t('achievements.title') }}</h1>
         <div class="ach-grid" role="list">
           @for (ach of ACH_DEFS; track ach.id) {
@@ -441,26 +442,25 @@
       </div>
     }
 
-    <!-- LEADERBOARD TAB -->
+    <!-- ══════════════════ LEADERBOARD ══════════════════ -->
     @if (currentTab() === 'leaderboard') {
-      <div class="tab-content" role="region">
+      <div class="tab-content">
         <h1 class="page-title">👑 {{ t('leaderboard.title') }}</h1>
         <div class="card empty-state">
           <span aria-hidden="true">🌍</span>
           <p>{{ t('analytics.noData') }}</p>
-          <span class="badge badge--cyan">🚀 Próximamente</span>
+          <span class="badge badge--gold">🚀 Próximamente</span>
         </div>
       </div>
     }
 
-    <!-- EDUCATION TAB -->
+    <!-- ══════════════════ EDUCATION ══════════════════ -->
     @if (currentTab() === 'education') {
-      <div class="tab-content" role="region">
+      <div class="tab-content">
         <h1 class="page-title">📚 {{ t('education.title') }}</h1>
-
         <div class="edu-grid">
           @for (algo of EDU_ALGORITHMS; track algo.alg) {
-            <div class="edu-card card" [attr.data-color]="algo.color">
+            <div class="edu-card card">
               <div class="edu-card__header">
                 <span class="edu-card__icon" aria-hidden="true">{{ getAlgoIcon(algo.alg) }}</span>
                 <div>
@@ -472,58 +472,43 @@
             </div>
           }
         </div>
-
         <div class="card tip-card">
           <h2 class="card-title">💡 {{ t('education.binarySearch') }}</h2>
           <p class="tip-text">{{ getBinarySearchTip() }}</p>
           <div class="tip-example">
-            <span class="badge badge--cyan">1–50 → ≤ 6 {{ t('difficulty.attempts') }}</span>
-            <span class="badge badge--violet">1–100 → ≤ 7 {{ t('difficulty.attempts') }}</span>
-            <span class="badge badge--amber">1–1000 → ≤ 10 {{ t('difficulty.attempts') }}</span>
+            <span class="badge badge--gold">1–50 → ≤ 6 {{ t('difficulty.attempts') }}</span>
+            <span class="badge badge--ghost">1–100 → ≤ 7 {{ t('difficulty.attempts') }}</span>
+            <span class="badge badge--teal">1–1000 → ≤ 10 {{ t('difficulty.attempts') }}</span>
           </div>
         </div>
-
       </div>
     }
 
   </main>
 
-  <!-- FOOTER -->
-<footer class="footer" role="contentinfo">
-  <div class="footer__inner">
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
 
-    <!-- Nombre y rol -->
-    <div class="footer__author">
-      <span class="footer__name">Elizabeth Díaz Familia</span>
-      <span class="footer__role">Sustainable AI Scientist · AI Data Scientist · Sustainable Intelligence & BI</span>
+      <div class="footer__author">
+        <span class="footer__name">Elizabeth Díaz Familia</span>
+        <span class="footer__role">Sustainable AI Scientist · AI Data Scientist · Sustainable Intelligence &amp; BI</span>
+      </div>
+
+      <ul class="footer__links">
+        <li><a href="https://lizzy0981.github.io" target="_blank" rel="noopener" class="footer__link">🌐 Portfolio</a></li>
+        <li><a href="https://linkedin.com/in/eli-familia/" target="_blank" rel="noopener" class="footer__link">💼 LinkedIn</a></li>
+        <li><a href="https://github.com/Lizzy0981" target="_blank" rel="noopener" class="footer__link">🐙 GitHub</a></li>
+        <li><a href="https://twitter.com/Lizzyfamilia" target="_blank" rel="noopener" class="footer__link">🐦 Twitter</a></li>
+        <li><a href="mailto:lizzyfamilia@gmail.com" class="footer__link">✉️ Email</a></li>
+      </ul>
+
+      <div class="footer__bottom">
+        <div class="eco-dot" aria-hidden="true"></div>
+        🌿 {{ t('sustainability.carbon') }} &nbsp;·&nbsp; MIT License © 2026
+      </div>
+
     </div>
-
-    <!-- Redes sociales -->
-    <div class="footer__links">
-      <a href="https://lizzy0981.github.io" target="_blank" rel="noopener" class="footer__link" title="Portfolio">
-        🌐 <span>Portfolio</span>
-      </a>
-      <a href="https://linkedin.com/in/eli-familia/" target="_blank" rel="noopener" class="footer__link" title="LinkedIn">
-        💼 <span>LinkedIn</span>
-      </a>
-      <a href="https://github.com/Lizzy0981" target="_blank" rel="noopener" class="footer__link" title="GitHub">
-        🐱 <span>GitHub</span>
-      </a>
-      <a href="https://twitter.com/Lizzyfamilia" target="_blank" rel="noopener" class="footer__link" title="Twitter">
-        🐦 <span>Twitter</span>
-      </a>
-      <a href="mailto:lizzyfamilia@gmail.com" class="footer__link" title="Email">
-        📧 <span>Email</span>
-      </a>
-    </div>
-
-    <!-- Sostenibilidad y licencia -->
-    <div class="footer__bottom">
-      <span class="badge badge--green">🌱 {{ t('sustainability.carbon') }}</span>
-      <span class="footer__license">MIT License © 2026</span>
-    </div>
-
-  </div>
-</footer>
+  </footer>
 
 </div>
