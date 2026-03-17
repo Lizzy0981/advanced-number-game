@@ -1,0 +1,54 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app-shell",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/favicon.svg", "/index.html", "/manifest.webmanifest", "/*.css", "/*.js"]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/assets/**"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-game",
+      "urls": ["/api/v1/game/**"],
+      "cacheConfig": {
+        "strategy":  "freshness",
+        "maxSize":   50,
+        "maxAge":    "5m",
+        "timeout":   "3s"
+      }
+    },
+    {
+      "name": "api-leaderboard",
+      "urls": ["/api/v1/leaderboard/**"],
+      "cacheConfig": {
+        "strategy":  "performance",
+        "maxSize":   10,
+        "maxAge":    "10m"
+      }
+    },
+    {
+      "name": "version-check",
+      "urls": ["/advanced-number-game/version.json"],
+      "cacheConfig": {
+        "strategy":  "freshness",
+        "maxSize":   5,
+        "maxAge":    "5m",
+        "timeout":   "2s"
+      }
+    }
+  ],
+  "navigationRequestStrategy": "freshness"
+}

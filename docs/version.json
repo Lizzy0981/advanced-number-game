@@ -1,0 +1,18 @@
+{
+  "version": "3.0.0",
+  "name": "advanced-number-game",
+  "description": "Advanced Number Guessing Game — 11 Languages, 5 Scientific Algorithms, AI, PWA, Sustainable.",
+  "buildDate": "2026-03-16T00:00:00.000Z",
+  "commitHash": "initial",
+  "languages": ["es","en","fr","pt","ru","tr","ar","he","ko","ja","zh"],
+  "rtl": ["ar","he"],
+  "algorithms": ["simple","linear_congruential","mersenne_twister","crypto_secure","quantum_inspired"],
+  "features": {
+    "i18n": true,
+    "pwa": true,
+    "offline": true,
+    "voice": true,
+    "gsap": true,
+    "sustainability": true
+  }
+}

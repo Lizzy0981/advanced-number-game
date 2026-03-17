@@ -1,0 +1,56 @@
+export const es = {
+  app: {
+    title: 'Juego Avanzado de Números',
+    subtitle: 'IA · Sostenible · Científico',
+    description: 'Plataforma con 5 algoritmos científicos, IA y analíticas en tiempo real',
+    loading: 'Cargando...', error: 'Algo salió mal', retry: 'Reintentar', version: 'Versión',
+  },
+  nav: { game: 'Juego', analytics: 'Analíticas', achievements: 'Logros', leaderboard: 'Ranking', education: 'Aprender', settings: 'Ajustes' },
+  game: {
+    title: 'Número Secreto', start: 'Nuevo Juego', guess: 'Adivinar', hint: 'Pista',
+    abandon: 'Abandonar', playAgain: 'Jugar de nuevo', viewStats: 'Ver estadísticas',
+    loading: 'Generando número...', placeholder: 'Escribe un número', range: 'Rango',
+    attempts: 'Intentos', timeLeft: 'Tiempo restante', elapsed: 'Tiempo transcurrido',
+    playing: 'En juego', guessPrompt: '¿Cuál es el número secreto?',
+  },
+  difficulty: {
+    title: 'Dificultad', beginner: 'Principiante', easy: 'Fácil', medium: 'Medio',
+    hard: 'Difícil', expert: 'Experto', nightmare: 'Pesadilla', attempts: 'intentos',
+  },
+  algorithm: {
+    title: 'Algoritmo', simple: 'Simple', lcg: 'Congruencial Lineal',
+    mersenne: 'Mersenne Twister', crypto: 'Cripto Seguro', quantum: 'Cuántico',
+    complexity: 'Complejidad', low: 'Baja', medium: 'Media', high: 'Alta',
+    enterprise: 'Empresarial', research: 'Investigación',
+  },
+  hint: {
+    higher: 'El número es mayor que {guess}', lower: 'El número es menor que {guess}',
+    correct: '¡Correcto! ¡Lo lograste!', warm: 'Muy cerca... ¡sigue!', cold: 'Estás lejos',
+  },
+  result: {
+    won: { title: '¡Ganaste!', message: 'Lo lograste en {attempts} intentos y {time}' },
+    lost: { title: 'Fin del juego', message: 'El número era {number}. ¡Inténtalo de nuevo!' },
+    timeout: { title: '¡Tiempo agotado!', message: 'El número era {number}. Practica con más tiempo.' },
+    score: 'Puntuación', efficiency: 'Eficiencia',
+  },
+  stats: {
+    wins: 'Victorias', winRate: 'Tasa de victoria', streak: 'Racha',
+    score: 'Puntos', avgAttempts: 'Promedio intentos', bestTime: 'Mejor tiempo',
+    totalGames: 'Total partidas', consistency: 'Consistencia',
+  },
+  analytics: {
+    title: 'Analíticas', performance: 'Rendimiento', history: 'Historial',
+    insights: 'Insights IA', export: 'Exportar datos', reset: 'Reiniciar datos',
+    noData: 'Sin datos suficientes. Juega más partidas.',
+  },
+  achievements: { title: 'Logros', unlocked: 'desbloqueados', locked: 'Bloqueado', points: 'puntos' },
+  leaderboard: { title: 'Ranking Global', rank: 'Posición', player: 'Jugador', score: 'Puntos', games: 'Partidas', winRate: 'Victorias', you: 'Tú' },
+  education: { title: 'Centro de Aprendizaje', algorithms: 'Algoritmos', strategies: 'Estrategias', binarySearch: 'Búsqueda Binaria', theory: 'Teoría', practice: 'Práctica' },
+  settings: { title: 'Ajustes', language: 'Idioma', theme: 'Tema', sound: 'Sonido', animations: 'Animaciones', darkMode: 'Modo oscuro', save: 'Guardar', reset: 'Restablecer' },
+  sustainability: { badge: 'IA Sostenible · Green Computing', carbon: 'Huella de carbono mínima', offline: 'Funciona sin conexión — menos CO₂' },
+  errors: { required: 'Campo obligatorio', outOfRange: 'Debe estar entre {min} y {max}', network: 'Sin conexión. Modo offline.', server: 'Error del servidor.' },
+  config: { title: 'Configuración', difficulty: 'Dificultad', algorithm: 'Algoritmo', advanced: 'Opciones avanzadas', timeLimit: 'Límite de tiempo', adaptive: 'Dificultad adaptativa', pattern: 'Detección de patrones', ai: 'Asistencia IA', practice: 'Modo práctica', voice: 'Control por voz' },
+  voice: { listening: 'Escuchando...', heard: 'Escuché: {value}', error: 'No pude escucharte.', start: 'Activar voz', stop: 'Desactivar voz', notSupported: 'No soportado en este navegador' },
+  footer: { author: 'Elizabeth Díaz Familia', role: 'Sustainable AI Scientist · AI Data Scientist', rights: 'Todos los derechos reservados', license: 'MIT License' },
+  meta: { offline: 'Sin conexión', online: 'En línea', syncing: 'Sincronizando...', saved: 'Guardado', updated: 'Actualización disponible' },
+};

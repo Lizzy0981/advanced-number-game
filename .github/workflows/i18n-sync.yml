@@ -1,0 +1,25 @@
+name: i18n — Validate Translations
+
+on:
+  push:
+    paths: ['src/app/i18n/**']
+  pull_request:
+    paths: ['src/app/i18n/**']
+  schedule:
+    - cron: '0 8 * * 1'   # Every Monday at 8am UTC
+
+jobs:
+  validate:
+    name: Validate 11 Languages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+      - run: node scripts/validate-i18n.js
+      - run: node scripts/i18n-report.js
+      - uses: actions/upload-artifact@v4
+        with:
+          name: i18n-coverage-${{ github.run_id }}
+          path: reports/i18n-coverage.json
