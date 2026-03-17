@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+out-tsc/
+coverage/
+
+# Angular cache
+.angular/
+
+# Reports (generated, not versioned)
+reports/
+
+# Environment (local overrides)
+src/environments/environment.local.ts
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Changelog (generated per release)
+CHANGELOG_LATEST.md
+
+# Misc
+.env
+.env.local
