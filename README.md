@@ -243,7 +243,6 @@ npm run build:github
     └── 📄 ...                            # 🏗️ Assets compilados por Angular CLI
 ```
 
-> 📌 **Nota:** Las carpetas `core/`, `shared/` y `features/` están creadas y listas para cuando se refactorice el componente principal en módulos separados (v3.1.0). Por ahora toda la lógica vive en `app.component.ts`.
 
 ## 🎮 Guía de Uso
 
