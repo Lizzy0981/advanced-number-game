@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#05070f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#00f5ff"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="rainbow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#f87171"/>
+      <stop offset="25%"  stop-color="#facc15"/>
+      <stop offset="50%"  stop-color="#4ade80"/>
+      <stop offset="75%"  stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#e879f9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="32" height="32" rx="7" fill="url(#bg)"/>
+
+  <!-- Rainbow bar top -->
+  <rect x="0" y="0" width="32" height="2.5" rx="7" fill="url(#rainbow)"/>
+
+  <!-- Target crosshair -->
+  <circle cx="16" cy="17" r="8"  fill="none" stroke="url(#accent)" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="16" cy="17" r="4"  fill="none" stroke="url(#accent)" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="16" cy="17" r="1.5" fill="url(#accent)"/>
+
+  <!-- Cross lines -->
+  <line x1="16" y1="7"  x2="16" y2="11" stroke="url(#accent)" stroke-width="1.2" opacity="0.6"/>
+  <line x1="16" y1="23" x2="16" y2="27" stroke="url(#accent)" stroke-width="1.2" opacity="0.6"/>
+  <line x1="6"  y1="17" x2="10" y2="17" stroke="url(#accent)" stroke-width="1.2" opacity="0.6"/>
+  <line x1="22" y1="17" x2="26" y2="17" stroke="url(#accent)" stroke-width="1.2" opacity="0.6"/>
+</svg>

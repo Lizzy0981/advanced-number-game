@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    // Redirige a index.html conservando la ruta
+    // Necesario para que Angular Router funcione en GitHub Pages
+    const path = window.location.pathname
+      .replace('/advanced-number-game', '')
+      .replace(/^\//, '');
+    window.location.replace(
+      '/advanced-number-game/' + (path ? '?r=/' + path : '')
+    );
+  </script>
+</head>
+<body></body>
+</html>

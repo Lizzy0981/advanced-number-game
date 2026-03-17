@@ -1,0 +1,18 @@
+{
+  "name":             "Advanced Number Game",
+  "short_name":       "NumberGame",
+  "description":      "Juego científico de números con IA · 11 idiomas · Sostenible",
+  "theme_color":      "#05070f",
+  "background_color": "#05070f",
+  "display":          "standalone",
+  "orientation":      "portrait-primary",
+  "start_url":        "/advanced-number-game/",
+  "scope":            "/advanced-number-game/",
+  "lang":             "es",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories":  ["games", "education", "productivity"],
+  "screenshots": []
+}
