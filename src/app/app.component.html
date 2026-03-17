@@ -1,70 +1,55 @@
-<!-- ═══════════════════════════════════════════════════
-     Advanced Number Game v3 — App Shell
-     Neon Cyber AI · 11 Languages · GSAP · Sustainable
-     Elizabeth Díaz Familia
-     ═══════════════════════════════════════════════════ -->
+<!-- Advanced Number Game v3 — App Shell -->
+<!-- Elizabeth Díaz Familia — Sustainable AI Scientist -->
 
-<!-- Animated grid background -->
 <div class="app-bg" aria-hidden="true"></div>
 
 <div class="app-shell" [attr.data-dir]="i18n.dir()" [attr.data-lang]="i18n.lang()">
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- HEADER -->
   <header class="header" role="banner">
     <div class="header__inner">
 
-      <!-- Brand -->
       <div class="header__brand">
         <span class="header__logo-icon" aria-hidden="true">🎯</span>
         <span class="header__logo-text">{{ t('app.title') }}</span>
       </div>
 
-      <!-- Main navigation -->
-      <nav class="header__nav" role="navigation" [attr.aria-label]="t('nav.game')">
-        @for (tab of (['game','analytics','achievements','leaderboard','education'] as const); track tab) {
+      <nav class="header__nav" role="navigation">
+        @for (tab of TABS; track tab) {
           <button
             class="nav-tab"
             [class.active]="currentTab() === tab"
             [attr.aria-current]="currentTab() === tab ? 'page' : null"
             (click)="setTab(tab)">
             <span class="nav-tab__icon" aria-hidden="true">
-              {{ tab==='game'?'🎮':tab==='analytics'?'📊':tab==='achievements'?'🏆':tab==='leaderboard'?'👑':'📚' }}
+              {{ TAB_ICONS[tab] }}
             </span>
             <span class="nav-tab__label">{{ t('nav.' + tab) }}</span>
           </button>
         }
       </nav>
 
-      <!-- Controls -->
       <div class="header__controls">
 
-        <!-- Online / Offline dot -->
         <span
           class="status-dot"
           [class.status-dot--online]="isOnline()"
           [class.status-dot--offline]="!isOnline()"
-          [attr.aria-label]="isOnline() ? t('meta.online') : t('meta.offline')"
           role="status">
         </span>
 
-        <!-- Language selector -->
         <div class="lang-selector">
           <button
             class="lang-selector__trigger"
             (click)="toggleLangDrop()"
-            [attr.aria-expanded]="showLangDrop()"
-            [attr.aria-label]="t('settings.language')">
+            [attr.aria-expanded]="showLangDrop()">
             <span aria-hidden="true">{{ LANG_META[i18n.lang()].flag }}</span>
             <span>{{ LANG_META[i18n.lang()].nativeName }}</span>
             <span class="lang-selector__arrow" aria-hidden="true">{{ showLangDrop() ? '▲' : '▼' }}</span>
           </button>
 
           @if (showLangDrop()) {
-            <div
-              #langDropRef
-              class="lang-selector__dropdown"
-              role="listbox"
-              [attr.aria-label]="t('settings.language')">
+            <div #langDropRef class="lang-selector__dropdown" role="listbox">
               @for (lang of ALL_LANGS; track lang) {
                 <button
                   class="lang-option"
@@ -75,7 +60,7 @@
                   <span class="lang-option__flag" aria-hidden="true">{{ LANG_META[lang].flag }}</span>
                   <span class="lang-option__name">{{ LANG_META[lang].nativeName }}</span>
                   @if (LANG_META[lang].dir === 'rtl') {
-                    <span class="lang-option__rtl-badge" aria-label="Right-to-left">RTL</span>
+                    <span class="lang-option__rtl-badge">RTL</span>
                   }
                 </button>
               }
@@ -83,12 +68,8 @@
           }
         </div>
 
-        <!-- Update pill -->
         @if (updateAvailable()) {
-          <button
-            class="update-btn"
-            (click)="applyUpdate()"
-            [attr.aria-label]="t('meta.updated')">
+          <button class="update-btn" (click)="applyUpdate()">
             ⬆️ {{ t('meta.updated') }}
           </button>
         }
@@ -99,22 +80,22 @@
 
   <!-- Sustainability strip -->
   <div class="sustainability-strip" role="complementary">
-    <span class="sustainability-badge" aria-label="{{ t('sustainability.badge') }}">
+    <span class="sustainability-badge">
       <span aria-hidden="true">🌱</span>
       <span>{{ t('sustainability.badge') }}</span>
     </span>
   </div>
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MAIN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- MAIN -->
   <main class="main" id="main-content" role="main">
 
-    <!-- ══════════════════ GAME TAB ══════════════════ -->
+    <!-- GAME TAB -->
     @if (currentTab() === 'game') {
-      <div class="tab-content" role="region" [attr.aria-label]="t('nav.game')">
+      <div class="tab-content" role="region">
         <div class="game-grid">
 
-          <!-- ── Config Panel ── -->
-          <aside class="config-panel" aria-label="{{ t('config.title') }}">
+          <!-- Config Panel -->
+          <aside class="config-panel">
             <div class="card">
               <h2 class="card-title">⚙️ {{ t('config.title') }}</h2>
 
@@ -123,14 +104,12 @@
                 <!-- Difficulty -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.difficulty') }}</legend>
-                  <div class="difficulty-list" role="radiogroup">
+                  <div class="difficulty-list">
                     @for (id of difficultyIds; track id) {
                       <button
                         type="button"
                         class="diff-btn"
-                        role="radio"
                         [class.selected]="form.get('difficulty')?.value === id"
-                        [attr.aria-checked]="form.get('difficulty')?.value === id"
                         [disabled]="isPlaying()"
                         (click)="form.patchValue({ difficulty: id })">
                         <span class="diff-btn__name">{{ t('difficulty.' + id) }}</span>
@@ -148,18 +127,15 @@
                 <!-- Algorithm -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.algorithm') }}</legend>
-                  <div class="algo-grid" role="radiogroup">
+                  <div class="algo-grid">
                     @for (alg of ALGORITHMS; track alg) {
                       <button
                         type="button"
                         class="algo-btn"
-                        role="radio"
                         [class.selected]="form.get('algorithm')?.value === alg"
-                        [attr.aria-checked]="form.get('algorithm')?.value === alg"
                         [disabled]="isPlaying()"
-                        [attr.title]="t('algorithm.' + algoKey(alg))"
                         (click)="form.patchValue({ algorithm: alg })">
-                        <span class="algo-btn__icon" aria-hidden="true">{{ ALGO_ICONS[alg] }}</span>
+                        <span class="algo-btn__icon" aria-hidden="true">{{ getAlgoIcon(alg) }}</span>
                         <span class="algo-btn__name">{{ t('algorithm.' + algoKey(alg)) }}</span>
                       </button>
                     }
@@ -170,21 +146,12 @@
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.advanced') }}</legend>
                   <div class="options-list">
-                    @for (opt of [
-                      { key: 'timeLimit', label: t('config.timeLimit'), icon: '⏱️' },
-                      { key: 'adaptive',  label: t('config.adaptive'),  icon: '🧠' },
-                      { key: 'ai',        label: t('config.ai'),        icon: '🤖' },
-                      { key: 'voice',     label: t('config.voice'),     icon: '🎙️' }
-                    ]; track opt.key) {
+                    @for (opt of CONFIG_OPTIONS; track opt.key) {
                       <label class="option-toggle">
-                        <input
-                          type="checkbox"
-                          [formControlName]="opt.key"
-                          class="option-toggle__input">
-                        <span class="option-toggle__track" aria-hidden="true"></span>
+                        <input type="checkbox" [formControlName]="opt.key" class="option-toggle__input">
                         <span class="option-toggle__label">
                           <span aria-hidden="true">{{ opt.icon }}</span>
-                          {{ opt.label }}
+                          {{ t('config.' + opt.key) }}
                         </span>
                       </label>
                     }
@@ -196,7 +163,6 @@
                   type="button"
                   class="btn btn--primary btn--lg btn--full"
                   [disabled]="isPlaying()"
-                  [attr.aria-busy]="gameState() === 'loading'"
                   (click)="startGame()">
                   @if (gameState() === 'loading') {
                     <span class="spinner" aria-hidden="true">⟳</span>
@@ -212,12 +178,12 @@
             </div>
           </aside>
 
-          <!-- ── Game Area ── -->
-          <section class="game-area" aria-live="polite" aria-atomic="false">
+          <!-- Game Area -->
+          <section class="game-area" aria-live="polite">
 
             <!-- IDLE -->
             @if (gameState() === 'idle') {
-              <div class="card card--hero" role="region" aria-label="{{ t('app.title') }}">
+              <div class="card card--hero">
                 <div class="hero-icon" aria-hidden="true">🎯</div>
                 <h1 class="hero-title">{{ t('app.title') }}</h1>
                 <p class="hero-sub">{{ t('app.description') }}</p>
@@ -225,9 +191,6 @@
                   <span class="badge badge--cyan">🔬 5 {{ t('algorithm.title') }}</span>
                   <span class="badge badge--violet">🌍 11 {{ t('settings.language') }}</span>
                   <span class="badge badge--green">♻️ Green Computing</span>
-                  @if (!isOnline()) {
-                    <span class="badge badge--amber">📱 {{ t('meta.offline') }}</span>
-                  }
                 </div>
               </div>
             }
@@ -242,7 +205,7 @@
                     <div class="status-badges">
                       <span class="badge badge--cyan">{{ t('difficulty.' + form.get('difficulty')?.value) }}</span>
                       <span class="badge badge--violet">
-                        <span aria-hidden="true">{{ ALGO_ICONS[form.get('algorithm')?.value] }}</span>
+                        <span aria-hidden="true">{{ getAlgoIcon(form.get('algorithm')?.value) }}</span>
                         {{ t('algorithm.' + algoKey(form.get('algorithm')?.value)) }}
                       </span>
                     </div>
@@ -251,21 +214,15 @@
                         class="timer"
                         [class.timer--warning]="timeRemaining()! <= 15"
                         [class.timer--danger]="timeRemaining()! <= 5"
-                        role="timer"
-                        [attr.aria-label]="t('game.timeLeft') + ': ' + formatTime(timeRemaining()!)">
+                        role="timer">
                         ⏱ {{ formatTime(timeRemaining()!) }}
                       </div>
                     }
                   </div>
 
-                  <!-- Attempts progress -->
                   <div class="attempts-row">
                     <span class="attempts-label">{{ t('game.attempts') }}</span>
-                    <span
-                      class="attempts-value"
-                      [attr.aria-label]="t('game.attempts') + ': ' + attempts() + ' / ' + maxAttempts()">
-                      {{ attempts() }} / {{ maxAttempts() }}
-                    </span>
+                    <span class="attempts-value">{{ attempts() }} / {{ maxAttempts() }}</span>
                   </div>
                   <div
                     class="progress-bar"
@@ -283,16 +240,10 @@
                 <div class="card guess-card">
                   <p class="guess-prompt">
                     {{ t('game.guessPrompt') }}
-                    <span class="range-hint">
-                      ({{ diffConfig().range.min }}–{{ diffConfig().range.max }})
-                    </span>
+                    <span class="range-hint">({{ diffConfig().range.min }}–{{ diffConfig().range.max }})</span>
                   </p>
 
-                  <form
-                    [formGroup]="guessForm"
-                    (ngSubmit)="submitGuess()"
-                    class="guess-form"
-                    novalidate>
+                  <form [formGroup]="guessForm" (ngSubmit)="submitGuess()" class="guess-form" novalidate>
                     <div class="guess-row">
                       <input
                         #numberInputRef
@@ -302,15 +253,10 @@
                         [attr.placeholder]="t('game.placeholder')"
                         [attr.min]="diffConfig().range.min"
                         [attr.max]="diffConfig().range.max"
-                        [attr.aria-label]="t('game.guessPrompt')"
                         autocomplete="off"
                         inputmode="numeric">
 
-                      <button
-                        type="submit"
-                        class="btn btn--primary btn--lg"
-                        [disabled]="!canGuess()"
-                        [attr.aria-label]="t('game.guess')">
+                      <button type="submit" class="btn btn--primary btn--lg" [disabled]="!canGuess()">
                         {{ t('game.guess') }}
                       </button>
 
@@ -320,9 +266,8 @@
                           class="btn"
                           [class.btn--violet]="isListening()"
                           [class.btn--ghost]="!isListening()"
-                          (click)="toggleVoice()"
                           [attr.aria-pressed]="isListening()"
-                          [attr.aria-label]="isListening() ? t('voice.stop') : t('voice.start')">
+                          (click)="toggleVoice()">
                           {{ isListening() ? '🔴' : '🎙️' }}
                         </button>
                       }
@@ -342,7 +287,7 @@
                   </form>
                 </div>
 
-                <!-- Hint display -->
+                <!-- Hint -->
                 @if (lastHint()) {
                   <div
                     class="hint-box"
@@ -361,12 +306,8 @@
                   </div>
                 }
 
-                <!-- Abandon -->
                 <div class="abandon-row">
-                  <button
-                    class="btn btn--ghost btn--sm"
-                    (click)="gameState.set('idle')"
-                    [attr.aria-label]="t('game.abandon')">
+                  <button class="btn btn--ghost btn--sm" (click)="abandonGame()">
                     {{ t('game.abandon') }}
                   </button>
                 </div>
@@ -374,13 +315,9 @@
               </div>
             }
 
-            <!-- GAME OVER (won / lost / timeout) -->
+            <!-- GAME OVER -->
             @if (isGameOver()) {
-              <div
-                class="card result-card"
-                role="region"
-                [attr.aria-label]="gameState() === 'won' ? t('result.won.title') : t('result.lost.title')">
-
+              <div class="card result-card">
                 <div class="result-icon" aria-hidden="true">
                   {{ gameState() === 'won' ? '🏆' : gameState() === 'timeout' ? '⏰' : '💔' }}
                 </div>
@@ -397,9 +334,9 @@
 
                 <p class="result-message">
                   @if (gameState() === 'won')
-                    { {{ t('result.won.message',     { attempts: attempts(), time: formatTime(0) }) }} }
+                    { {{ t('result.won.message', { attempts: attempts(), time: '—' }) }} }
                   @if (gameState() === 'lost')
-                    { {{ t('result.lost.message',    { number: secretNumber() }) }} }
+                    { {{ t('result.lost.message', { number: secretNumber() }) }} }
                   @if (gameState() === 'timeout')
                     { {{ t('result.timeout.message', { number: secretNumber() }) }} }
                 </p>
@@ -436,18 +373,13 @@
       </div>
     }
 
-    <!-- ══════════════════ ANALYTICS TAB ══════════════════ -->
+    <!-- ANALYTICS TAB -->
     @if (currentTab() === 'analytics') {
-      <div class="tab-content" role="region" [attr.aria-label]="t('nav.analytics')">
+      <div class="tab-content" role="region">
         <h1 class="page-title">📊 {{ t('analytics.title') }}</h1>
 
         <div class="metrics-grid">
-          @for (m of [
-            { icon: '🏆', label: t('stats.winRate'),    value: winRate() + '%',           color: 'cyan'   },
-            { icon: '🎯', label: t('stats.totalGames'), value: gameHistory().length,       color: 'violet' },
-            { icon: '🔥', label: t('stats.streak'),     value: currentStreak(),            color: 'amber'  },
-            { icon: '⭐', label: t('stats.wins'),       value: totalWins(),                color: 'green'  }
-          ]; track m.label) {
+          @for (m of getMetrics(); track m.label) {
             <div class="metric-card" [attr.data-color]="m.color">
               <span class="metric-card__icon" aria-hidden="true">{{ m.icon }}</span>
               <div class="metric-card__body">
@@ -471,8 +403,11 @@
                 <div class="history-item" role="listitem">
                   <span class="history-item__num" aria-hidden="true">{{ i + 1 }}</span>
                   <span class="history-item__result">
-                    @if (record.won) { <span class="badge badge--green">✅ {{ t('result.won.title') }}</span> }
-                    @else            { <span class="badge badge--ghost">❌ {{ t('result.lost.title') }}</span> }
+                    @if (record.won) {
+                      <span class="badge badge--green">✅ {{ t('result.won.title') }}</span>
+                    } @else {
+                      <span class="badge badge--ghost">❌ {{ t('result.lost.title') }}</span>
+                    }
                   </span>
                   <span class="badge badge--ghost">{{ t('difficulty.' + record.difficulty) }}</span>
                   <span class="history-item__attempts">{{ record.attempts }} {{ t('difficulty.attempts') }}</span>
@@ -484,9 +419,9 @@
       </div>
     }
 
-    <!-- ══════════════════ ACHIEVEMENTS TAB ══════════════════ -->
+    <!-- ACHIEVEMENTS TAB -->
     @if (currentTab() === 'achievements') {
-      <div class="tab-content" role="region" [attr.aria-label]="t('nav.achievements')">
+      <div class="tab-content" role="region">
         <h1 class="page-title">🏆 {{ t('achievements.title') }}</h1>
         <div class="ach-grid" role="list">
           @for (ach of ACH_DEFS; track ach.id) {
@@ -499,62 +434,48 @@
                   <span class="ach-card__pts">{{ ach.pts }} {{ t('achievements.points') }}</span>
                 </div>
               </div>
-              <span class="ach-card__lock" aria-label="{{ t('achievements.locked') }}">🔒</span>
+              <span class="ach-card__lock" aria-hidden="true">🔒</span>
             </div>
           }
         </div>
       </div>
     }
 
-    <!-- ══════════════════ LEADERBOARD TAB ══════════════════ -->
+    <!-- LEADERBOARD TAB -->
     @if (currentTab() === 'leaderboard') {
-      <div class="tab-content" role="region" [attr.aria-label]="t('nav.leaderboard')">
+      <div class="tab-content" role="region">
         <h1 class="page-title">👑 {{ t('leaderboard.title') }}</h1>
         <div class="card empty-state">
           <span aria-hidden="true">🌍</span>
           <p>{{ t('analytics.noData') }}</p>
-          <span class="badge badge--cyan">🚀 {{ t('meta.updated') }}</span>
+          <span class="badge badge--cyan">🚀 Próximamente</span>
         </div>
       </div>
     }
 
-    <!-- ══════════════════ EDUCATION TAB ══════════════════ -->
+    <!-- EDUCATION TAB -->
     @if (currentTab() === 'education') {
-      <div class="tab-content" role="region" [attr.aria-label]="t('nav.education')">
+      <div class="tab-content" role="region">
         <h1 class="page-title">📚 {{ t('education.title') }}</h1>
 
         <div class="edu-grid">
-          @for (algo of [
-            { alg: 'simple',              label: 'Simple Random',         complexity: 'O(1)',       color: 'green'  },
-            { alg: 'linear_congruential', label: 'Linear Congruential',   complexity: 'O(1)',       color: 'cyan'   },
-            { alg: 'mersenne_twister',    label: 'Mersenne Twister',      complexity: 'O(1) amort.',color: 'violet' },
-            { alg: 'crypto_secure',       label: 'Crypto-Secure',         complexity: 'O(1)',       color: 'pink'   },
-            { alg: 'quantum_inspired',    label: 'Quantum-Inspired',      complexity: 'O(8 qubits)',color: 'amber'  }
-          ]; track algo.alg) {
+          @for (algo of EDU_ALGORITHMS; track algo.alg) {
             <div class="edu-card card" [attr.data-color]="algo.color">
               <div class="edu-card__header">
-                <span class="edu-card__icon" aria-hidden="true">{{ ALGO_ICONS[$any(algo.alg)] }}</span>
+                <span class="edu-card__icon" aria-hidden="true">{{ getAlgoIcon(algo.alg) }}</span>
                 <div>
                   <div class="edu-card__name" [attr.data-color]="algo.color">{{ algo.label }}</div>
                   <code class="edu-card__complexity">{{ algo.complexity }}</code>
                 </div>
               </div>
-              <p class="edu-card__desc">
-                {{ t('algorithm.' + algoKey($any(algo.alg))) }}
-              </p>
+              <p class="edu-card__desc">{{ t('algorithm.' + algoKey(algo.alg)) }}</p>
             </div>
           }
         </div>
 
-        <!-- Binary search tip -->
         <div class="card tip-card">
           <h2 class="card-title">💡 {{ t('education.binarySearch') }}</h2>
-          <p class="tip-text">
-            @if (i18n.lang() === 'es') { La búsqueda binaria garantiza encontrar el número en ⌈log₂(N)⌉ intentos. Para rango 1–100: máximo 7 intentos. Para 1–1000: máximo 10. }
-            @if (i18n.lang() === 'en') { Binary search guarantees finding the number in ⌈log₂(N)⌉ attempts. For range 1–100: max 7 attempts. For 1–1000: max 10. }
-            @if (i18n.lang() === 'fr') { La recherche binaire garantit de trouver le nombre en ⌈log₂(N)⌉ tentatives. Plage 1–100: max 7. Pour 1–1000: max 10. }
-            @if (!['es','en','fr'].includes(i18n.lang())) { Binary search: ⌈log₂(N)⌉ attempts. Range 1–100: max 7. Range 1–1000: max 10. }
-          </p>
+          <p class="tip-text">{{ getBinarySearchTip() }}</p>
           <div class="tip-example">
             <span class="badge badge--cyan">1–50 → ≤ 6 {{ t('difficulty.attempts') }}</span>
             <span class="badge badge--violet">1–100 → ≤ 7 {{ t('difficulty.attempts') }}</span>
@@ -567,7 +488,7 @@
 
   </main>
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- FOOTER -->
   <footer class="footer" role="contentinfo">
     <div class="footer__left">
       <span class="footer__name">{{ t('footer.author') }}</span>
