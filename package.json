@@ -1,0 +1,121 @@
+{
+  "name": "advanced-number-game",
+  "version": "3.0.0",
+  "description": "Advanced Number Guessing Game — 11 Languages, 5 Scientific Algorithms, AI, PWA, Sustainable. Built by Elizabeth Díaz Familia.",
+  "author": {
+    "name": "Elizabeth Díaz Familia",
+    "email": "lizzyfamilia@gmail.com",
+    "url": "https://lizzy0981.github.io"
+  },
+  "homepage": "https://lizzy0981.github.io/advanced-number-game/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lizzy0981/advanced-number-game.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start":            "ng serve --port 4200",
+    "build":            "ng build",
+    "build:prod":       "ng build --configuration production --base-href /advanced-number-game/",
+    "build:github":     "npm run build:prod && npm run generate-version",
+    "watch":            "ng build --watch --configuration development",
+    "test":             "jest",
+    "test:ci":          "jest --coverage --watchAll=false --passWithNoTests",
+    "lint":             "ng lint",
+    "lint:fix":         "ng lint --fix",
+    "format":           "prettier --write \"src/**/*.{ts,html,scss,json}\"",
+    "format:check":     "prettier --check \"src/**/*.{ts,html,scss,json}\"",
+    "generate-version": "node scripts/generate-version.js",
+    "validate-i18n":    "node scripts/validate-i18n.js",
+    "i18n-report":      "node scripts/i18n-report.js",
+    "check-bundle":     "node scripts/check-bundle-size.js",
+    "changelog":        "node scripts/generate-changelog.js",
+    "bump:patch":       "npm version patch && npm run generate-version",
+    "bump:minor":       "npm version minor && npm run generate-version",
+    "bump:major":       "npm version major && npm run generate-version",
+    "clean":            "rimraf dist docs node_modules/.cache",
+    "precommit":        "npm run lint && npm run validate-i18n && npm run test:ci"
+  },
+  "dependencies": {
+    "@angular/animations":              "^17.3.0",
+    "@angular/common":                  "^17.3.0",
+    "@angular/compiler":                "^17.3.0",
+    "@angular/core":                    "^17.3.0",
+    "@angular/forms":                   "^17.3.0",
+    "@angular/platform-browser":        "^17.3.0",
+    "@angular/platform-browser-dynamic":"^17.3.0",
+    "@angular/router":                  "^17.3.0",
+    "@angular/service-worker":          "^17.3.0",
+    "gsap":                             "^3.12.5",
+    "chart.js":                         "^4.4.0",
+    "rxjs":                             "^7.8.1",
+    "tslib":                            "^2.6.0",
+    "zone.js":                          "^0.14.0",
+    "simple-statistics":                "^7.8.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular":    "^17.3.0",
+    "@angular/cli":                     "^17.3.0",
+    "@angular/compiler-cli":            "^17.3.0",
+    "@angular-eslint/builder":          "^17.0.0",
+    "@angular-eslint/eslint-plugin":    "^17.0.0",
+    "@angular-eslint/eslint-plugin-template": "^17.0.0",
+    "@angular-eslint/schematics":       "^17.0.0",
+    "@angular-eslint/template-parser":  "^17.0.0",
+    "@types/node":                      "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser":        "^7.0.0",
+    "eslint":                           "^8.57.0",
+    "jest":                             "^29.7.0",
+    "jest-preset-angular":              "^14.0.0",
+    "@testing-library/angular":         "^16.0.0",
+    "@testing-library/jest-dom":        "^6.4.0",
+    "typescript":                       "^5.4.0",
+    "prettier":                         "^3.2.0",
+    "husky":                            "^9.0.0",
+    "lint-staged":                      "^15.2.0",
+    "gh-pages":                         "^6.1.0",
+    "rimraf":                           "^5.0.5",
+    "sass":                             "^1.71.0"
+  },
+  "engines": {
+    "node": ">=18.13.0",
+    "npm":  ">=9.0.0"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": ["<rootDir>/src/test-setup.ts"],
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageThreshold": {
+      "global": { "branches": 75, "functions": 75, "lines": 75, "statements": 75 }
+    }
+  },
+  "lint-staged": {
+    "*.{ts,html}":  ["eslint --fix", "prettier --write"],
+    "*.{scss,css}": ["prettier --write"],
+    "*.{json,md}":  ["prettier --write"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit":  "lint-staged && node scripts/validate-i18n.js",
+      "pre-push":    "npm run test:ci",
+      "post-commit": "node scripts/generate-version.js"
+    }
+  },
+  "config": {
+    "languages":    ["es","en","fr","pt","ru","tr","ar","he","ko","ja","zh"],
+    "rtlLanguages": ["ar","he"],
+    "algorithms":   ["simple","linear_congruential","mersenne_twister","crypto_secure","quantum_inspired"],
+    "features": {
+      "i18n": true, "pwa": true, "offline": true,
+      "voice": true, "ml": true, "analytics": true,
+      "gsap": true, "sustainability": true
+    },
+    "deployment": {
+      "target":     "github-pages",
+      "baseHref":   "/advanced-number-game/",
+      "outputPath": "docs"
+    }
+  }
+}
