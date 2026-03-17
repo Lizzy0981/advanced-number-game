@@ -345,7 +345,7 @@ git push origin main
 
 ## 🔮 Roadmap
 
-### ✅ **v3.0.0 — Completado**
+### ✅ **v1.0.0 — Completado**
 - [x] 🌍 11 idiomas con validación automática CI/CD
 - [x] ⚛️ 5 algoritmos científicos — 100% cliente, sin backend
 - [x] 🎙️ Control por voz Web Speech API
@@ -354,14 +354,14 @@ git push origin main
 - [x] 📱 PWA offline-first
 - [x] ↔️ RTL completo para árabe y hebreo
 
-### 🔄 **v3.1.0 — Próximo**
+### 🔄 **v1.1.0 — Próximo**
 - [ ] 🌍 Ranking global real con backend en Railway (Node.js / Spring Boot)
 - [ ] 🧬 Algoritmos genéticos — evolución de estrategias
 - [ ] 🧠 TensorFlow.js — predicción de siguiente número
 - [ ] 📊 D3.js — visualizaciones de distribución de algoritmos
 - [ ] 🏆 Torneos programados — eventos semanales
 
-### 🎯 **v4.0.0 — Futuro**
+### 🎯 **v2.0.0 — Futuro**
 - [ ] 🤖 Chatbot con Claude API — asistente de estrategia
 - [ ] 🎓 Modo educativo — teoría de algoritmos con visualizaciones
 - [ ] 🏢 Versión enterprise — feature flags, roles, analytics
