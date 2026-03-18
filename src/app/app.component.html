@@ -1,30 +1,36 @@
-<!-- Advanced Number Game v3 — Obsidian Gold Design -->
+<!-- Advanced Number Game v3 — Obsidian Gold -->
 <!-- Elizabeth Díaz Familia — Sustainable AI Scientist -->
 
-<!-- Ambient glows -->
 <div class="ambient ambient--1" aria-hidden="true"></div>
 <div class="ambient ambient--2" aria-hidden="true"></div>
-
-<!-- Grain overlay -->
 <div class="app-bg" aria-hidden="true"></div>
+
+<!-- Confetti -->
+@if (showConfetti()) {
+  <div class="confetti-container" aria-hidden="true">
+    @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; track i) {
+      <div class="confetti-piece" [attr.data-i]="i"></div>
+    }
+  </div>
+}
 
 <div class="app-shell" [attr.data-dir]="i18n.dir()" [attr.data-lang]="i18n.lang()">
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━ HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <header class="header" role="banner">
     <div class="header__inner">
 
-      <!-- Brand -->
       <div class="header__brand">
         <div class="header__logo-icon" aria-hidden="true">🎯</div>
-        <span class="header__logo-text">NÚMERO SECRETO</span>
+        <span class="header__logo-text">
+          <span>NÚMERO</span>
+          <span>SECRETO</span>
+        </span>
       </div>
 
-      <!-- Nav -->
       <nav class="header__nav" role="navigation">
         @for (tab of TABS; track tab) {
-          <button
-            class="nav-tab"
+          <button class="nav-tab"
             [class.active]="currentTab() === tab"
             [attr.aria-current]="currentTab() === tab ? 'page' : null"
             (click)="setTab(tab)">
@@ -34,7 +40,6 @@
         }
       </nav>
 
-      <!-- Controls -->
       <div class="header__controls">
 
         <span class="status-dot"
@@ -43,7 +48,6 @@
           role="status">
         </span>
 
-        <!-- Language selector -->
         <div class="lang-selector">
           <button class="lang-selector__trigger"
             (click)="toggleLangDrop()"
@@ -51,13 +55,11 @@
             🌐 {{ LANG_META[i18n.lang()].nativeName }}
             <span class="lang-selector__arrow">{{ showLangDrop() ? '▲' : '▾' }}</span>
           </button>
-
           @if (showLangDrop()) {
             <div #langDropRef class="lang-selector__dropdown" role="listbox">
               @for (lang of ALL_LANGS; track lang) {
                 <button class="lang-option" role="option"
                   [class.active]="i18n.lang() === lang"
-                  [attr.aria-selected]="i18n.lang() === lang"
                   (click)="setLang(lang)">
                   <span class="lang-option__flag">{{ LANG_META[lang].flag }}</span>
                   <span class="lang-option__name">{{ LANG_META[lang].nativeName }}</span>
@@ -71,43 +73,40 @@
         </div>
 
         @if (updateAvailable()) {
-          <button class="update-btn" (click)="applyUpdate()">
-            ⬆️ {{ t('meta.updated') }}
-          </button>
+          <button class="update-btn" (click)="applyUpdate()">⬆️ {{ t('meta.updated') }}</button>
         }
 
       </div>
     </div>
   </header>
 
-  <!-- ── Hero band / Sustainability strip ─────────────────────────────────── -->
+  <!-- Hero band -->
   <div class="sustainability-strip" role="complementary">
     <span class="sustainability-badge">
       <span class="hero-dot" aria-hidden="true"></span>
-      IA Sostenible &nbsp;·&nbsp; Green Computing
+      {{ t('sustainability.badge') }}
       <span class="hero-dot" aria-hidden="true"></span>
     </span>
   </div>
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MAIN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ MAIN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <main class="main" id="main-content" role="main">
 
-    <!-- ══════════════════ GAME TAB ══════════════════ -->
+    <!-- ══════════ GAME TAB ══════════ -->
     @if (currentTab() === 'game') {
       <div class="tab-content">
         <div class="game-grid">
 
-          <!-- ── Config Panel ── -->
+          <!-- Config -->
           <aside class="config-panel">
             <div class="card">
               <h2 class="card-title">
                 <span class="config-icon" aria-hidden="true">⚙️</span>
-                Configuración
+                {{ t('config.title') }}
               </h2>
 
               <form [formGroup]="form" novalidate>
 
-                <!-- Dificultad -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.difficulty') }}</legend>
                   <div class="difficulty-list">
@@ -121,11 +120,9 @@
                           <span class="diff-btn__name">{{ t('difficulty.' + id) }}</span>
                         </div>
                         <div class="diff-btn__meta">
-                          <span class="diff-btn__range">1 – {{ DIFFICULTIES[id].range.max }}</span>
+                          <span class="diff-btn__range">1–{{ DIFFICULTIES[id].range.max }}</span>
                           @if (DIFFICULTIES[id].timeLimit) {
-                            <div class="diff-btn__time">
-                              <span>⏱</span>{{ DIFFICULTIES[id].timeLimit }}s
-                            </div>
+                            <div class="diff-btn__time">⏱ {{ DIFFICULTIES[id].timeLimit }}s</div>
                           }
                         </div>
                       </button>
@@ -133,7 +130,6 @@
                   </div>
                 </fieldset>
 
-                <!-- Algoritmo -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.algorithm') }}</legend>
                   <div class="algo-grid">
@@ -149,7 +145,6 @@
                   </div>
                 </fieldset>
 
-                <!-- Opciones avanzadas -->
                 <fieldset class="form-group">
                   <legend class="form-label">{{ t('config.advanced') }}</legend>
                   <div class="options-list">
@@ -167,7 +162,6 @@
                   </div>
                 </fieldset>
 
-                <!-- CTA -->
                 <button type="button"
                   class="btn btn--primary btn--full"
                   [disabled]="isPlaying()"
@@ -178,7 +172,7 @@
                   } @else if (isPlaying()) {
                     🎮 {{ t('game.playing') }}
                   } @else {
-                    <span>🚀</span> {{ t('game.start') }}
+                    🚀 {{ t('game.start') }}
                   }
                 </button>
 
@@ -186,7 +180,7 @@
             </div>
           </aside>
 
-          <!-- ── Game Area ── -->
+          <!-- Game area -->
           <section class="game-area" aria-live="polite">
 
             <!-- IDLE -->
@@ -209,11 +203,10 @@
                   </div>
                   <div class="badge badge--teal">
                     <div class="badge-dot"></div>
-                    Green Computing
+                    Green AI
                   </div>
                 </div>
 
-                <!-- Stats dinámicas -->
                 <div class="stats-row">
                   <div class="stat-card">
                     <div class="stat-value gold">{{ gameHistory().length }}</div>
@@ -224,8 +217,8 @@
                     <div class="stat-label">{{ t('stats.winRate') }}</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-value">{{ currentStreak() }}</div>
-                    <div class="stat-label">{{ t('stats.streak') }}</div>
+                    <div class="stat-value">{{ bestScore() }}</div>
+                    <div class="stat-label">Best Score</div>
                   </div>
                 </div>
               </div>
@@ -235,29 +228,45 @@
             @if (isPlaying()) {
               <div class="playing-area">
 
-                <!-- Status -->
+                <!-- Status bar -->
                 <div class="card status-card">
                   <div class="status-row">
                     <div class="status-badges">
                       <span class="badge badge--gold">{{ t('difficulty.' + form.get('difficulty')?.value) }}</span>
-                      <span class="badge badge--ghost">
-                        {{ getAlgoIcon(form.get('algorithm')?.value) }}
-                        {{ t('algorithm.' + algoKey(form.get('algorithm')?.value)) }}
-                      </span>
                     </div>
-                    @if (timeRemaining() !== null) {
-                      <div class="timer"
-                        [class.timer--warning]="timeRemaining()! <= 15"
-                        [class.timer--danger]="timeRemaining()! <= 5"
-                        role="timer">
-                        ⏱ {{ formatTime(timeRemaining()!) }}
+                    <!-- Timers -->
+                    <div class="timer-group">
+                      <!-- Elapsed always visible -->
+                      <div class="elapsed-timer">
+                        ⏱ {{ formatTime(elapsedSeconds()) }}
                       </div>
-                    }
+                      <!-- Countdown only if enabled -->
+                      @if (timeRemaining() !== null) {
+                        <div class="countdown-timer"
+                          [class.countdown--warning]="timeRemaining()! <= 15"
+                          [class.countdown--danger]="timeRemaining()! <= 5"
+                          role="timer">
+                          ⏳ {{ formatTime(timeRemaining()!) }}
+                        </div>
+                      }
+                    </div>
                   </div>
-                  <div class="attempts-row">
-                    <span class="attempts-label">{{ t('game.attempts') }}</span>
-                    <span class="attempts-value">{{ attempts() }} / {{ maxAttempts() }}</span>
+
+                  <!-- Lives display -->
+                  <div class="lives-row">
+                    <span class="lives-label">{{ t('game.attempts') }}</span>
+                    <div class="lives-track">
+                      @for (i of getLivesArray(); track i) {
+                        <span class="life-icon"
+                          [class.life-used]="i < attempts()"
+                          [class.life-available]="i >= attempts()">
+                          {{ i < attempts() ? '💀' : '❤️' }}
+                        </span>
+                      }
+                    </div>
+                    <span class="lives-count">{{ livesLeft() }} {{ t('game.attempts') }}</span>
                   </div>
+
                   <div class="progress-bar"
                     [class.progress-bar--warning]="gameProgress() > 60"
                     [class.progress-bar--danger]="gameProgress() > 85"
@@ -269,7 +278,18 @@
                   </div>
                 </div>
 
-                <!-- Guess -->
+                <!-- Heat meter -->
+                @if (heatLevel()) {
+                  <div class="heat-meter" [attr.data-heat]="heatLevel()">
+                    <span class="heat-meter__emoji">{{ heatEmoji() }}</span>
+                    <div class="heat-meter__bar">
+                      <div class="heat-meter__fill" [attr.data-heat]="heatLevel()"></div>
+                    </div>
+                    <span class="heat-meter__label">{{ heatLabel() }}</span>
+                  </div>
+                }
+
+                <!-- Guess input -->
                 <div class="card guess-card">
                   <p class="guess-prompt">
                     {{ t('game.guessPrompt') }}
@@ -299,28 +319,21 @@
                     @if (isListening() && lastHeard()) {
                       <p class="voice-feedback" role="status">{{ t('voice.heard', { value: lastHeard() }) }}</p>
                     }
-                    @if (guessForm.get('number')?.invalid && guessForm.get('number')?.touched) {
-                      <p class="input-error" role="alert">
-                        {{ t('errors.outOfRange', { min: diffConfig().range.min, max: diffConfig().range.max }) }}
-                      </p>
-                    }
                   </form>
                 </div>
 
                 <!-- Hint -->
-                @if (lastHint()) {
+                @if (lastHint() && lastHint() !== 'correct') {
                   <div class="hint-box"
                     [class.hint-box--higher]="lastHint() === 'higher'"
                     [class.hint-box--lower]="lastHint() === 'lower'"
-                    [class.hint-box--correct]="lastHint() === 'correct'"
                     role="alert">
                     <span class="hint-box__icon" aria-hidden="true">
-                      {{ lastHint() === 'higher' ? '⬆️' : lastHint() === 'lower' ? '⬇️' : '✅' }}
+                      {{ lastHint() === 'higher' ? '⬆️' : '⬇️' }}
                     </span>
                     <span>
                       @if (lastHint() === 'higher') { {{ t('hint.higher', { guess: lastGuessValue() }) }} }
                       @if (lastHint() === 'lower')  { {{ t('hint.lower',  { guess: lastGuessValue() }) }} }
-                      @if (lastHint() === 'correct'){ {{ t('hint.correct') }} }
                     </span>
                   </div>
                 }
@@ -337,9 +350,11 @@
             <!-- GAME OVER -->
             @if (isGameOver()) {
               <div class="card result-card">
+
                 <div class="result-icon" aria-hidden="true">
                   {{ gameState() === 'won' ? '🏆' : gameState() === 'timeout' ? '⏰' : '💔' }}
                 </div>
+
                 <h2 class="result-title"
                   [class.result-title--won]="gameState() === 'won'"
                   [class.result-title--lost]="gameState() === 'lost'"
@@ -348,29 +363,49 @@
                   @if (gameState() === 'lost')    { {{ t('result.lost.title') }} }
                   @if (gameState() === 'timeout') { {{ t('result.timeout.title') }} }
                 </h2>
+
                 <p class="result-message">
-                  @if (gameState() === 'won')     { {{ t('result.won.message',     { attempts: attempts(), time: '—' }) }} }
-                  @if (gameState() === 'lost')    { {{ t('result.lost.message',    { number: secretNumber() }) }} }
-                  @if (gameState() === 'timeout') { {{ t('result.timeout.message', { number: secretNumber() }) }} }
+                  @if (gameState() === 'won')
+                    { {{ t('result.won.message', { attempts: attempts(), time: formatTime(elapsedSeconds()) }) }} }
+                  @if (gameState() === 'lost')
+                    { {{ t('result.lost.message', { number: secretNumber() }) }} }
+                  @if (gameState() === 'timeout')
+                    { {{ t('result.timeout.message', { number: secretNumber() }) }} }
                 </p>
+
+                @if (gameState() === 'won') {
+                  <div class="score-display">
+                    <div class="score-display__label">Score</div>
+                    <div class="score-display__value">{{ score() }}</div>
+                    <div class="score-display__sub">pts</div>
+                  </div>
+                }
+
                 <div class="result-stats">
                   <div class="result-stat">
-                    <span class="result-stat__val">{{ winRate() }}%</span>
-                    <span class="result-stat__lbl">{{ t('stats.winRate') }}</span>
+                    <span class="result-stat__val">{{ attempts() }}</span>
+                    <span class="result-stat__lbl">{{ t('game.attempts') }}</span>
+                  </div>
+                  <div class="result-stat">
+                    <span class="result-stat__val">{{ formatTime(elapsedSeconds()) }}</span>
+                    <span class="result-stat__lbl">{{ t('game.elapsed') }}</span>
                   </div>
                   <div class="result-stat">
                     <span class="result-stat__val">{{ currentStreak() }}</span>
                     <span class="result-stat__lbl">{{ t('stats.streak') }}</span>
                   </div>
-                  <div class="result-stat">
-                    <span class="result-stat__val">{{ totalWins() }}</span>
-                    <span class="result-stat__lbl">{{ t('stats.wins') }}</span>
-                  </div>
                 </div>
+
+                <!-- BOTONES - siempre visibles -->
                 <div class="result-actions">
-                  <button class="btn btn--primary btn--lg" (click)="startGame()">🔄 {{ t('game.playAgain') }}</button>
-                  <button class="btn btn--ghost" (click)="setTab('analytics')">📊 {{ t('game.viewStats') }}</button>
+                  <button class="btn btn--primary btn--lg" (click)="startGame()">
+                    🔄 {{ t('game.playAgain') }}
+                  </button>
+                  <button class="btn btn--ghost" (click)="setTab('analytics')">
+                    📊 {{ t('game.viewStats') }}
+                  </button>
                 </div>
+
               </div>
             }
 
@@ -379,7 +414,7 @@
       </div>
     }
 
-    <!-- ══════════════════ ANALYTICS ══════════════════ -->
+    <!-- ══════════ ANALYTICS ══════════ -->
     @if (currentTab() === 'analytics') {
       <div class="tab-content">
         <h1 class="page-title">📊 {{ t('analytics.title') }}</h1>
@@ -400,7 +435,7 @@
             <p>{{ t('analytics.noData') }}</p>
           </div>
         } @else {
-          <div class="card">
+          <div class="card" style="margin-top:1.5rem">
             <h2 class="card-title">{{ t('analytics.history') }}</h2>
             <div class="history-list" role="list">
               @for (record of gameHistory().slice(0, 20); track record.ts; let i = $index) {
@@ -412,6 +447,9 @@
                   </span>
                   <span class="badge badge--ghost">{{ t('difficulty.' + record.difficulty) }}</span>
                   <span class="history-item__attempts">{{ record.attempts }} {{ t('difficulty.attempts') }}</span>
+                  @if (record.score) {
+                    <span class="history-item__score">⭐ {{ record.score }}</span>
+                  }
                 </div>
               }
             </div>
@@ -420,7 +458,7 @@
       </div>
     }
 
-    <!-- ══════════════════ ACHIEVEMENTS ══════════════════ -->
+    <!-- ══════════ ACHIEVEMENTS ══════════ -->
     @if (currentTab() === 'achievements') {
       <div class="tab-content">
         <h1 class="page-title">🏆 {{ t('achievements.title') }}</h1>
@@ -442,7 +480,7 @@
       </div>
     }
 
-    <!-- ══════════════════ LEADERBOARD ══════════════════ -->
+    <!-- ══════════ LEADERBOARD ══════════ -->
     @if (currentTab() === 'leaderboard') {
       <div class="tab-content">
         <h1 class="page-title">👑 {{ t('leaderboard.title') }}</h1>
@@ -454,7 +492,7 @@
       </div>
     }
 
-    <!-- ══════════════════ EDUCATION ══════════════════ -->
+    <!-- ══════════ EDUCATION ══════════ -->
     @if (currentTab() === 'education') {
       <div class="tab-content">
         <h1 class="page-title">📚 {{ t('education.title') }}</h1>
@@ -486,13 +524,13 @@
 
   </main>
 
-  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
   <footer class="footer" role="contentinfo">
     <div class="footer__inner">
 
       <div class="footer__author">
-        <span class="footer__name">Elizabeth Díaz Familia</span>
-        <span class="footer__role">Sustainable AI Scientist · AI Data Scientist · Sustainable Intelligence &amp; BI</span>
+        <span class="footer__name">{{ t('footer.author') }}</span>
+        <span class="footer__role">{{ t('footer.role') }}</span>
       </div>
 
       <ul class="footer__links">
@@ -505,7 +543,7 @@
 
       <div class="footer__bottom">
         <div class="eco-dot" aria-hidden="true"></div>
-        🌿 {{ t('sustainability.carbon') }} &nbsp;·&nbsp; MIT License © 2026
+        🌿 {{ t('sustainability.carbon') }} &nbsp;·&nbsp; {{ t('footer.license') }} © 2026
       </div>
 
     </div>
