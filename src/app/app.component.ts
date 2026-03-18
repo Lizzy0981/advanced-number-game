@@ -243,16 +243,18 @@ export class AppComponent implements OnInit, OnDestroy {
   });
 
   readonly heatLabel = computed(() => {
+    const level = this.heatLevel();
+    if (!level) return '';
     const lang = this.i18n.lang();
-    const labels: Record<HeatLevel, Record<string, string>> = {
+    type HeatKey = 'frozen' | 'cold' | 'warm' | 'hot' | 'burning';
+    const labels: Record<HeatKey, Record<string, string>> = {
       burning: { es:'¡Ardiendo!', en:'Burning!', fr:'Brûlant!', pt:'Queimando!', ru:'Горит!', tr:'Yanıyor!', ar:'محترق!', he:'בוער!', ko:'타오르는!', ja:'燃えてる!', zh:'燃烧中!' },
       hot:     { es:'¡Muy caliente!', en:'Very hot!', fr:'Très chaud!', pt:'Muito quente!', ru:'Очень горячо!', tr:'Çok sıcak!', ar:'ساخن جداً!', he:'חם מאוד!', ko:'매우 뜨거워!', ja:'かなり熱い!', zh:'非常热!' },
       warm:    { es:'Tibio...', en:'Getting warm...', fr:'Tiède...', pt:'Morno...', ru:'Тепло...', tr:'Ilık...', ar:'دافئ...', he:'חמים...', ko:'따뜻해지고 있어...', ja:'温かくなってきた...', zh:'越来越暖...' },
       cold:    { es:'Frío...', en:'Cold...', fr:'Froid...', pt:'Frio...', ru:'Холодно...', tr:'Soğuk...', ar:'بارد...', he:'קר...', ko:'차가워...', ja:'冷たい...', zh:'冷...' },
       frozen:  { es:'¡Congelado! ❄️', en:'Frozen! ❄️', fr:'Gelé! ❄️', pt:'Congelado! ❄️', ru:'Заморожено! ❄️', tr:'Donmuş! ❄️', ar:'مجمد! ❄️', he:'קפוא! ❄️', ko:'얼어붙었어! ❄️', ja:'凍ってる! ❄️', zh:'冻住了! ❄️' },
-      null:    {},
     };
-    const map = labels[this.heatLevel() ?? 'null'];
+    const map = labels[level as HeatKey];
     return map?.[lang] ?? map?.['en'] ?? '';
   });
 
