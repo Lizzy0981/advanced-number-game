@@ -29,12 +29,12 @@ interface GameRecord {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const DIFFICULTIES: Record<string, DifficultyConfig> = {
-  beginner:  { id: 'beginner',  range: { min: 1, max: 10   }, maxAttempts: 5,  timeLimit: null },
-  easy:      { id: 'easy',      range: { min: 1, max: 25   }, maxAttempts: 6,  timeLimit: null },
-  medium:    { id: 'medium',    range: { min: 1, max: 50   }, maxAttempts: 8,  timeLimit: 60   },
-  hard:      { id: 'hard',      range: { min: 1, max: 100  }, maxAttempts: 10, timeLimit: 45   },
-  expert:    { id: 'expert',    range: { min: 1, max: 500  }, maxAttempts: 12, timeLimit: 30   },
-  nightmare: { id: 'nightmare', range: { min: 1, max: 1000 }, maxAttempts: 15, timeLimit: 20   },
+  beginner:  { id: 'beginner',  range: { min: 1, max: 10   }, maxAttempts: 5,  timeLimit: 15 },
+  easy:      { id: 'easy',      range: { min: 1, max: 25   }, maxAttempts: 6,  timeLimit: 20 },
+  medium:    { id: 'medium',    range: { min: 1, max: 50   }, maxAttempts: 8,  timeLimit: 40 },
+  hard:      { id: 'hard',      range: { min: 1, max: 100  }, maxAttempts: 10, timeLimit: 35 },
+  expert:    { id: 'expert',    range: { min: 1, max: 500  }, maxAttempts: 12, timeLimit: 30 },
+  nightmare: { id: 'nightmare', range: { min: 1, max: 1000 }, maxAttempts: 15, timeLimit: 25 },
 };
 
 const ALGORITHMS: Algorithm[] = [
