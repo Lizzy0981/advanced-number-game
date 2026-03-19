@@ -297,6 +297,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // ── Internal ──────────────────────────────────────────────────────────────
   private readonly destroy$ = new Subject<void>();
+  private gameStop$          = new Subject<void>();
   private readonly voice     = new VoiceController();
   private readonly sfx       = new SoundFX();
   private gameStartTime      = 0;
@@ -372,6 +373,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showConfetti.set(false);
       this.guessForm.reset();
       this.gameStartTime = Date.now();
+      this.gameStop$.next();        // cancel any previous timers
       this.gameState.set('playing');
 
       // Always start elapsed timer
@@ -405,6 +407,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.heatLevel.set('burning');
       const pts = this.calculateScore();
       this.score.set(pts);
+      this.gameStop$.next();
       this.gameState.set('won');
       this.saveRecord(true, pts);
       this.sfx.play('correct');
@@ -437,6 +440,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.animateWrongGuess();
 
       if (this.attempts() >= this.maxAttempts()) {
+        this.gameStop$.next();
         this.gameState.set('lost');
         this.saveRecord(false, 0);
         setTimeout(() => this.animateLoss(), 50);
@@ -457,6 +461,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   abandonGame(): void {
+    this.gameStop$.next();
     this.gameState.set('idle');
     this.heatLevel.set(null);
     this.showConfetti.set(false);
@@ -496,6 +501,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private startElapsedTimer(): void {
     interval(1000).pipe(
       takeUntil(this.destroy$),
+      takeUntil(this.gameStop$),
       filter(() => this.gameState() === 'playing')
     ).subscribe(() => this.elapsedSeconds.update(n => n + 1));
   }
@@ -504,11 +510,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.timeRemaining.set(seconds);
     interval(1000).pipe(
       takeUntil(this.destroy$),
+      takeUntil(this.gameStop$),
       filter(() => this.gameState() === 'playing')
     ).subscribe(() => {
       const t = this.timeRemaining()!;
       if (t <= 1) {
         this.timeRemaining.set(0);
+        this.gameStop$.next();
         this.gameState.set('timeout');
         this.saveRecord(false, 0);
         setTimeout(() => this.animateLoss(), 50);
